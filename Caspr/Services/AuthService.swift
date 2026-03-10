@@ -13,15 +13,9 @@ final class AuthService: ObservableObject {
     private let client: SupabaseClient
 
     private init() {
-        // Supabase credentials — loaded from Info.plist or hardcoded for development
-        // In production, these come from the app's configuration
-        let url = URL(string:
-            Bundle.main.object(forInfoDictionaryKey: "SUPABASE_URL") as? String
-            ?? "https://your-project.supabase.co"
-        )!
-        let anonKey =
-            Bundle.main.object(forInfoDictionaryKey: "SUPABASE_ANON_KEY") as? String
-            ?? "your-anon-key"
+        // Supabase credentials
+        let url = URL(string: "https://yzyoghpviofurdmswxno.supabase.co")!
+        let anonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl6eW9naHB2aW9mdXJkbXN3eG5vIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwODA1MDUsImV4cCI6MjA4ODY1NjUwNX0.xvfQlUBQ-7qk0X_Yl5ITMmYJM1WDqySS1RCNs_7NH1s"
 
         client = SupabaseClient(supabaseURL: url, supabaseKey: anonKey)
 
