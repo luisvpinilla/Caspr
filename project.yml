@@ -1,0 +1,73 @@
+name: Caspr
+options:
+  bundleIdPrefix: com.luisvpinilla
+  deploymentTarget:
+    macOS: "14.0"
+  xcodeVersion: "16.0"
+  generateEmptyDirectories: true
+
+packages:
+  WhisperKit:
+    url: https://github.com/argmaxinc/WhisperKit
+    from: "0.9.0"
+  KeyboardShortcuts:
+    url: https://github.com/sindresorhus/KeyboardShortcuts
+    from: "2.0.0"
+  Supabase:
+    url: https://github.com/supabase/supabase-swift
+    from: "2.0.0"
+  Sparkle:
+    url: https://github.com/sparkle-project/Sparkle
+    from: "2.0.0"
+
+targets:
+  Caspr:
+    type: application
+    platform: macOS
+    sources:
+      - path: Caspr
+        excludes:
+          - Tests/**
+          - Resources/Info.plist
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.luisvpinilla.caspr
+        PRODUCT_NAME: Caspr
+        MARKETING_VERSION: "0.1.0"
+        CURRENT_PROJECT_VERSION: "1"
+        SWIFT_VERSION: "6.0"
+        MACOSX_DEPLOYMENT_TARGET: "14.0"
+        INFOPLIST_FILE: Caspr/Resources/Info.plist
+        CODE_SIGN_ENTITLEMENTS: Caspr/Resources/Caspr.entitlements
+        GENERATE_INFOPLIST_FILE: false
+        COMBINE_HIDPI_IMAGES: true
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ENABLE_PREVIEWS: true
+        SWIFT_STRICT_CONCURRENCY: complete
+      configs:
+        Debug:
+          CODE_SIGN_IDENTITY: "-"
+          SWIFT_OPTIMIZATION_LEVEL: "-Onone"
+        Release:
+          CODE_SIGN_IDENTITY: "Apple Development"
+          SWIFT_OPTIMIZATION_LEVEL: "-O"
+    dependencies:
+      - package: WhisperKit
+      - package: KeyboardShortcuts
+      - package: Supabase
+        product: Supabase
+      - package: Sparkle
+    entitlements:
+      path: Caspr/Resources/Caspr.entitlements
+
+  CasprTests:
+    type: bundle.unit-test
+    platform: macOS
+    sources:
+      - path: Caspr/Tests
+    dependencies:
+      - target: Caspr
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.luisvpinilla.caspr.tests
+        SWIFT_VERSION: "6.0"
