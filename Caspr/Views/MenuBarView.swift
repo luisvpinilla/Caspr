@@ -3,16 +3,37 @@ import SwiftData
 
 struct MenuBarView: View {
     @StateObject private var recorder = AudioCaptureService.shared
+    @StateObject private var auth = AuthService.shared
+    @StateObject private var profile = UserProfile.shared
     @Environment(\.modelContext) private var modelContext
 
     var body: some View {
         VStack(spacing: 16) {
-            // App title
-            Text("CASPR")
-                .font(.system(size: 12, weight: .semibold, design: .default))
-                .tracking(2.4)
-                .textCase(.uppercase)
-                .foregroundStyle(DesignTokens.textPrimary)
+            // App title + account
+            HStack {
+                Text("CASPR")
+                    .font(.system(size: 12, weight: .semibold, design: .default))
+                    .tracking(2.4)
+                    .textCase(.uppercase)
+                    .foregroundStyle(DesignTokens.textPrimary)
+
+                Spacer()
+
+                if auth.isSignedIn {
+                    HStack(spacing: 4) {
+                        LEDIndicatorView(
+                            color: profile.tier == .pro ? DesignTokens.ledPro : DesignTokens.ledLive,
+                            size: 5
+                        )
+                        Text(profile.tier.rawValue.uppercased())
+                            .font(.system(size: 9, weight: .semibold, design: .monospaced))
+                            .tracking(1)
+                            .foregroundStyle(
+                                profile.tier == .pro ? DesignTokens.ledPro : DesignTokens.textMuted
+                            )
+                    }
+                }
+            }
 
             // Status badge
             StatusBadgeView(status: recorder.isRecording ? .recording : .standby)
@@ -79,6 +100,45 @@ struct MenuBarView: View {
                 .padding(.vertical, 4)
             }
             .buttonStyle(.plain)
+
+            // Account section
+            if auth.isSignedIn {
+                HStack(spacing: 8) {
+                    Image(systemName: "person.circle")
+                        .font(.system(size: 13))
+                    VStack(alignment: .leading, spacing: 1) {
+                        Text(profile.email ?? "Account")
+                            .font(.system(size: 12))
+                            .lineLimit(1)
+                        Text(profile.tier == .pro ? "Pro Plan" : "Free Plan")
+                            .font(.system(size: 10, design: .monospaced))
+                            .foregroundStyle(DesignTokens.textMuted)
+                    }
+                    Spacer()
+                    Button("Sign Out") {
+                        Task { await auth.signOut() }
+                    }
+                    .font(.system(size: 10))
+                    .foregroundStyle(DesignTokens.textMuted)
+                    .buttonStyle(.plain)
+                }
+                .foregroundStyle(DesignTokens.textSecondary)
+                .padding(.vertical, 4)
+            } else {
+                Button(action: { MainWindowController.shared.showAuthWindow() }) {
+                    HStack(spacing: 6) {
+                        LEDIndicatorView(color: DesignTokens.ledPro, size: 5)
+                        Text("Sign in for Pro features")
+                            .font(.system(size: 12))
+                        Spacer()
+                        Image(systemName: "arrow.right")
+                            .font(.system(size: 10))
+                    }
+                    .foregroundStyle(DesignTokens.ledPro)
+                    .padding(.vertical, 4)
+                }
+                .buttonStyle(.plain)
+            }
 
             Divider()
                 .background(DesignTokens.borderSubtle)

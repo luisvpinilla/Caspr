@@ -7,6 +7,7 @@ final class MainWindowController {
     static let shared = MainWindowController()
 
     private var window: NSWindow?
+    private var authWindow: NSWindow?
     var modelContainer: ModelContainer?
 
     private init() {}
@@ -45,5 +46,33 @@ final class MainWindowController {
         NSApp.activate(ignoringOtherApps: true)
 
         self.window = window
+    }
+
+    func showAuthWindow() {
+        if let authWindow {
+            authWindow.makeKeyAndOrderFront(nil)
+            NSApp.activate(ignoringOtherApps: true)
+            return
+        }
+
+        let authWindow = NSWindow(
+            contentRect: NSRect(x: 0, y: 0, width: 400, height: 520),
+            styleMask: [.titled, .closable],
+            backing: .buffered,
+            defer: false
+        )
+
+        authWindow.title = "Caspr — Sign In"
+        authWindow.center()
+        authWindow.titlebarAppearsTransparent = true
+        authWindow.backgroundColor = NSColor(DesignTokens.bgApp)
+        authWindow.isReleasedWhenClosed = false
+
+        authWindow.contentView = NSHostingView(rootView: AuthView())
+
+        authWindow.makeKeyAndOrderFront(nil)
+        NSApp.activate(ignoringOtherApps: true)
+
+        self.authWindow = authWindow
     }
 }
