@@ -5,6 +5,7 @@ struct RecordingListView: View {
     @Query(sort: \Recording.createdAt, order: .reverse) private var recordings: [Recording]
     @Environment(\.modelContext) private var modelContext
     @State private var searchText = ""
+    @State private var selectedRecording: Recording?
 
     private var filteredRecordings: [Recording] {
         if searchText.isEmpty {
@@ -17,10 +18,55 @@ struct RecordingListView: View {
     }
 
     var body: some View {
+        if let recording = selectedRecording {
+            // Show transcript view for selected recording
+            VStack(spacing: 0) {
+                // Back bar
+                HStack {
+                    Button(action: { selectedRecording = nil }) {
+                        HStack(spacing: 4) {
+                            Image(systemName: "chevron.left")
+                                .font(.system(size: 11, weight: .semibold))
+                            Text("Recordings")
+                                .font(.system(size: 12, weight: .medium))
+                        }
+                        .foregroundStyle(DesignTokens.accentPrimary)
+                    }
+                    .buttonStyle(.plain)
+
+                    Spacer()
+
+                    Text(recording.title)
+                        .font(.system(size: 12, weight: .medium))
+                        .foregroundStyle(DesignTokens.textSecondary)
+                        .lineLimit(1)
+
+                    Spacer()
+
+                    // Duration
+                    Text(formatDuration(recording.duration))
+                        .font(.system(size: 11, design: .monospaced))
+                        .foregroundStyle(DesignTokens.textMuted)
+                }
+                .padding(.horizontal, 16)
+                .padding(.vertical, 8)
+                .background(DesignTokens.bgHeader)
+
+                TranscriptView(recording: recording)
+            }
+        } else {
+            // Show recordings list
+            recordingsList
+        }
+    }
+
+    // MARK: - Recordings List
+
+    private var recordingsList: some View {
         VStack(spacing: 0) {
             // Tab bar
             HStack {
-                Text("TRANSCRIPTS")
+                Text("RECORDINGS")
                     .font(.system(size: 11, weight: .semibold))
                     .tracking(1)
                     .textCase(.uppercase)
@@ -30,6 +76,14 @@ struct RecordingListView: View {
                     .background(DesignTokens.bgSurface)
                     .clipShape(RoundedRectangle(cornerRadius: 4))
 
+                Text("\(recordings.count)")
+                    .font(.system(size: 11, weight: .medium, design: .monospaced))
+                    .foregroundStyle(DesignTokens.textMuted)
+                    .padding(.horizontal, 6)
+                    .padding(.vertical, 3)
+                    .background(DesignTokens.bgSurface)
+                    .clipShape(Capsule())
+
                 Spacer()
 
                 // Search
@@ -37,7 +91,7 @@ struct RecordingListView: View {
                     Image(systemName: "magnifyingglass")
                         .foregroundStyle(DesignTokens.textMuted)
                         .font(.system(size: 12))
-                    TextField("Search ⌘F", text: $searchText)
+                    TextField("Search \u{2318}F", text: $searchText)
                         .textFieldStyle(.plain)
                         .font(.system(size: 13))
                         .foregroundStyle(DesignTokens.textPrimary)
@@ -65,6 +119,9 @@ struct RecordingListView: View {
                     LazyVStack(spacing: 1) {
                         ForEach(filteredRecordings) { recording in
                             recordingRow(recording)
+                                .onTapGesture {
+                                    selectedRecording = recording
+                                }
                         }
                     }
                     .padding(.vertical, 4)
@@ -73,7 +130,7 @@ struct RecordingListView: View {
 
             Divider().background(DesignTokens.borderSubtle)
 
-            // Footer actions
+            // Footer
             footerBar
         }
     }
@@ -81,7 +138,7 @@ struct RecordingListView: View {
     private var emptyState: some View {
         VStack(spacing: 12) {
             Spacer()
-            Text("👻")
+            Text("\u{1F47B}")
                 .font(.system(size: 40))
             Text("No recordings yet")
                 .font(.system(size: 15, weight: .medium))
@@ -115,13 +172,27 @@ struct RecordingListView: View {
 
             Spacer()
 
-            // Status badges
-            if recording.transcript != nil {
+            // Transcription status
+            if LocalTranscriptionService.shared.isTranscribing {
+                HStack(spacing: 4) {
+                    ProgressView()
+                        .scaleEffect(0.6)
+                    Text("Transcribing")
+                        .font(.system(size: 10, weight: .semibold))
+                        .foregroundStyle(DesignTokens.ledLive)
+                }
+            } else if recording.transcript != nil {
                 statusPill("Transcribed", color: DesignTokens.ledLive)
             }
+
             if recording.summary != nil {
                 statusPill("Summarised", color: DesignTokens.accentPrimary)
             }
+
+            // Chevron
+            Image(systemName: "chevron.right")
+                .font(.system(size: 10))
+                .foregroundStyle(DesignTokens.textMuted)
 
             // Delete
             Button(action: { deleteRecording(recording) }) {
@@ -150,9 +221,9 @@ struct RecordingListView: View {
 
     private var footerBar: some View {
         HStack(spacing: 12) {
-            footerButton("Copy", icon: "doc.on.doc", shortcut: "⌘C")
-            footerButton("Save", icon: "square.and.arrow.down", shortcut: "⌘S")
-            footerButton("Export", icon: "arrow.down.doc", shortcut: "⌘E")
+            footerButton("Copy", icon: "doc.on.doc", shortcut: "\u{2318}C")
+            footerButton("Save", icon: "square.and.arrow.down", shortcut: "\u{2318}S")
+            footerButton("Export", icon: "arrow.down.doc", shortcut: "\u{2318}E")
             Spacer()
             footerButton("Clear", icon: "trash", shortcut: nil)
         }
@@ -190,7 +261,6 @@ struct RecordingListView: View {
     }
 
     private func deleteRecording(_ recording: Recording) {
-        // Remove audio file
         try? FileManager.default.removeItem(at: recording.audioFileURL)
         modelContext.delete(recording)
     }

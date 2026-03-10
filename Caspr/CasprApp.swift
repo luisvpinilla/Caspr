@@ -45,6 +45,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         setupKeyboardShortcut()
         observeRecordingState()
         MainWindowController.shared.modelContainer = modelContainer
+
+        // Show main window + Dock icon on launch
+        showMainWindow()
     }
 
     // MARK: - Menu Bar
@@ -74,6 +77,21 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         } else {
             popover.show(relativeTo: button.bounds, of: button, preferredEdge: .minY)
         }
+    }
+
+    // MARK: - Main Window + Dock Icon
+
+    func showMainWindow() {
+        NSApp.setActivationPolicy(.regular)
+        MainWindowController.shared.showWindow()
+    }
+
+    func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
+        // Clicking Dock icon re-opens the main window
+        if !flag {
+            showMainWindow()
+        }
+        return true
     }
 
     // MARK: - Keyboard Shortcut
