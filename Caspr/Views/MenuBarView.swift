@@ -102,7 +102,7 @@ struct MenuBarView: View {
                     .background(.ultraThinMaterial)
             }
         )
-        // Save recording to SwiftData when M4A conversion completes
+        // Save recording to SwiftData when M4A conversion completes, then auto-transcribe
         .onChange(of: recorder.currentRecordingURL) { _, newURL in
             guard let url = newURL else { return }
             let recording = Recording(
@@ -111,6 +111,12 @@ struct MenuBarView: View {
             )
             modelContext.insert(recording)
             recorder.currentRecordingURL = nil
+
+            // Auto-transcribe with local WhisperKit
+            LocalTranscriptionService.shared.autoTranscribe(
+                recording: recording,
+                modelContext: modelContext
+            )
         }
     }
 

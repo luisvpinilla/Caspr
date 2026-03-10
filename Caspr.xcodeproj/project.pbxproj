@@ -16,6 +16,7 @@
 		28A927C779E4DF0ABA473ADF /* RotaryKnobView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6034BC1D8D6D4AEA3E5BEE92 /* RotaryKnobView.swift */; };
 		2D31E9C6D94160C1A2290AED /* MenuBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49720CB5E8913809437E1B7D /* MenuBarView.swift */; };
 		31184366BF9A3D26DA30626A /* GhostModeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507B1AA5D6FF6ED5D4A2E1A0 /* GhostModeService.swift */; };
+		338E444CBFC4F8F7729791E6 /* TranscriptView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E867B6A3586BBD93CCA7FDE /* TranscriptView.swift */; };
 		3E041E5C291860BA787D6AF5 /* StatusBadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 220C999BB7DC78A8A0052FA5 /* StatusBadgeView.swift */; };
 		47D3CCA2052E07FB147783D7 /* WaveformView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09815A8DCB4EA3C8F43865EF /* WaveformView.swift */; };
 		4CB46209A086A51E49B96F30 /* PaywallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049980172F96979187F2BBD5 /* PaywallView.swift */; };
@@ -26,6 +27,7 @@
 		7AC2DA193FE0AA39F1ABF5CC /* Recording.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB780AAF71059D180A838F5 /* Recording.swift */; };
 		839F5B6E208986B5C186158E /* TranscriptSegmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99501226D95A0A5FE06EFEAE /* TranscriptSegmentView.swift */; };
 		8AF263640AD7A25D1A22B6FD /* DesignTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB654731FB2E7CBDAFFCA5F6 /* DesignTokens.swift */; };
+		8E0CE6462785009526E47787 /* LocalTranscriptionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0112321698A5D77DE092B55 /* LocalTranscriptionService.swift */; };
 		C34346CE3AC90F77A2427AB2 /* Summary.swift in Sources */ = {isa = PBXBuildFile; fileRef = E675D0D57E56690116560912 /* Summary.swift */; };
 		C5CF224E657FAED1FE0D5DAD /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = B2E6C28BC4C564D844D57C65 /* Supabase */; };
 		C9C581D8D4A19E91347FE3AD /* MainWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5132082DC00725151613E26 /* MainWindowController.swift */; };
@@ -53,6 +55,7 @@
 		19010885ADE63981A9498EA5 /* LEDIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LEDIndicatorView.swift; sourceTree = "<group>"; };
 		1AB780AAF71059D180A838F5 /* Recording.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recording.swift; sourceTree = "<group>"; };
 		220C999BB7DC78A8A0052FA5 /* StatusBadgeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBadgeView.swift; sourceTree = "<group>"; };
+		3E867B6A3586BBD93CCA7FDE /* TranscriptView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptView.swift; sourceTree = "<group>"; };
 		4042691B9C1216D94E8797C2 /* TierGate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TierGate.swift; sourceTree = "<group>"; };
 		49720CB5E8913809437E1B7D /* MenuBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarView.swift; sourceTree = "<group>"; };
 		507B1AA5D6FF6ED5D4A2E1A0 /* GhostModeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GhostModeService.swift; sourceTree = "<group>"; };
@@ -62,6 +65,7 @@
 		8A50C9F82CBAA7305B6B86F0 /* LevelMeterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelMeterView.swift; sourceTree = "<group>"; };
 		9133DC79DBCC00E92D99AA0C /* CasprApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CasprApp.swift; sourceTree = "<group>"; };
 		99501226D95A0A5FE06EFEAE /* TranscriptSegmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptSegmentView.swift; sourceTree = "<group>"; };
+		A0112321698A5D77DE092B55 /* LocalTranscriptionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalTranscriptionService.swift; sourceTree = "<group>"; };
 		A0535953E19C4B0556C7BC4B /* MainContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainContentView.swift; sourceTree = "<group>"; };
 		B189719AE9575B3EA6D44CA9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B2EB1C98A169A6123BCD6118 /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
@@ -106,6 +110,7 @@
 			children = (
 				CEDBA0448AA1B527ED3084FF /* AudioCaptureService.swift */,
 				507B1AA5D6FF6ED5D4A2E1A0 /* GhostModeService.swift */,
+				A0112321698A5D77DE092B55 /* LocalTranscriptionService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -168,6 +173,7 @@
 				49720CB5E8913809437E1B7D /* MenuBarView.swift */,
 				049980172F96979187F2BBD5 /* PaywallView.swift */,
 				D68FCF9356682209681FDFA9 /* RecordingListView.swift */,
+				3E867B6A3586BBD93CCA7FDE /* TranscriptView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -295,6 +301,7 @@
 				31184366BF9A3D26DA30626A /* GhostModeService.swift in Sources */,
 				FF2B511323D4280F0EC6D72D /* LEDIndicatorView.swift in Sources */,
 				F36387371671E62C069F0ECD /* LevelMeterView.swift in Sources */,
+				8E0CE6462785009526E47787 /* LocalTranscriptionService.swift in Sources */,
 				0AA35FF885F1A8D1272FB8D6 /* MainContentView.swift in Sources */,
 				C9C581D8D4A19E91347FE3AD /* MainWindowController.swift in Sources */,
 				2D31E9C6D94160C1A2290AED /* MenuBarView.swift in Sources */,
@@ -307,6 +314,7 @@
 				1C8B508D711B3C00F4798EA1 /* TierGate.swift in Sources */,
 				7437A4F8684DF49C3895D291 /* Transcript.swift in Sources */,
 				839F5B6E208986B5C186158E /* TranscriptSegmentView.swift in Sources */,
+				338E444CBFC4F8F7729791E6 /* TranscriptView.swift in Sources */,
 				D67214E2D64347C0CF8BC1AF /* UserProfile.swift in Sources */,
 				47D3CCA2052E07FB147783D7 /* WaveformView.swift in Sources */,
 			);
